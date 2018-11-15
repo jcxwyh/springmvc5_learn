@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 配置要管理的bean -->
+    <context:component-scan base-package="pro.onlyou.springmvc5.xml.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <mvc:annotation-driven />
+
+    <mvc:resources mapping="/static/**" location="classpath:/static/" cache-period="1231224" />
+
+    <mvc:interceptors>
+        <bean></bean>
+        <mvc:interceptor>
+            <!--　先后顺序有讲究　-->
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/static/**" />
+            <bean></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean></bean>
+
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="pro.onlyou.springmvc5.xml.converter.DateConverter"></bean>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp" />
+    </bean>
+</beans>
